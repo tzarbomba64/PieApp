@@ -5,8 +5,16 @@
   <title>Installing PieApp…</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    body { font-family: -apple-system, sans-serif; text-align: center; padding: 2em; }
-    a { display: inline-block; margin-top: 1em; font-size: 1.2em; }
+    body { 
+      font-family: -apple-system, sans-serif; 
+      text-align: center; 
+      padding: 2em; 
+    }
+    a { 
+      display: inline-block; 
+      margin-top: 1em; 
+      font-size: 1.2em; 
+    }
   </style>
 </head>
 <body>
@@ -15,11 +23,11 @@
   <a id="installLink" href="#">Install PieApp</a>
 
   <script>
-    // point directly to the root manifest.plist
+    // Use the raw GitHub URL for your manifest.plist
     const manifestURL = 'https://raw.githubusercontent.com/tzarbomba64/PieApp/main/manifest.plist';
     const installURL = 'itms-services://?action=download-manifest&url=' + encodeURIComponent(manifestURL);
 
-    // set the link and auto-redirect
+    // Set up the link and auto-redirect
     const link = document.getElementById('installLink');
     link.href = installURL;
 
@@ -31,4 +39,3 @@
   </script>
 </body>
 </html>
-
