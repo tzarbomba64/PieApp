@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Installing PieApp…</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body { font-family: -apple-system, sans-serif; text-align: center; padding: 2em; }
+    a { display: inline-block; margin-top: 1em; font-size: 1.2em; }
+  </style>
+</head>
+<body>
+  <h1>PieApp Installation</h1>
+  <p>Your download should start automatically. If nothing happens, tap the link below:</p>
+  <a id="installLink" href="#">Install PieApp</a>
+
+  <script>
+    const manifestURL = 'https://raw.githubusercontent.com/purpleparrotpartpradime/PieApp/main/pieapp_ota_package/manifest.plist';
+    const installURL = `itms-services://?action=download-manifest&url=${encodeURIComponent(manifestURL)}`;
+    document.getElementById('installLink').href = installURL;
+    window.onload = () => {
+      setTimeout(() => {
+        window.location = installURL;
+      }, 500);
+    };
+  </script>
+</body>
+</html>
