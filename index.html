@@ -1,41 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Installing PieApp…</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { 
-      font-family: -apple-system, sans-serif; 
-      text-align: center; 
-      padding: 2em; 
-    }
-    a { 
-      display: inline-block; 
-      margin-top: 1em; 
-      font-size: 1.2em; 
-    }
+    body { font-family: -apple-system, sans-serif; text-align: center; padding: 2em; }
+    a { display: inline-block; margin-top: 1em; font-size: 1.2em; }
+    #status { margin-top: 1em; font-size: 1em; color: gray; }
   </style>
 </head>
 <body>
   <h1>PieApp Installation</h1>
-  <p>Your download should start automatically. If it doesn’t, tap the link below:</p>
-  <a id="installLink" href="#">Install PieApp</a>
+  <p>Preparing installation...</p>
+  <p><a id="installLink" href="#">Tap here if nothing happens</a></p>
+  <p id="status"></p>
 
   <script>
-    // Raw URL for manifest.plist at repo root
-    const manifestURL = 'https://raw.githubusercontent.com/tzarbomba64/PieApp/main/manifest.plist';
-    const installURL = 'itms-services://?action=download-manifest&url=' + encodeURIComponent(manifestURL);
+    async function prepareInstall() {
+      const ipaURL = 'https://raw.githubusercontent.com/tzarbomba64/PieApp/main/PieApp.ipa';
+      const manifestURL = 'https://raw.githubusercontent.com/tzarbomba64/PieApp/main/manifest.plist';
+      
+      document.getElementById('status').innerText = 'Packaging files...';
 
-    // Set link and auto-redirect
-    const link = document.getElementById('installLink');
-    link.href = installURL;
+      try {
+        // Verify IPA file exists
+        const ipaResponse = await fetch(ipaURL, { method: 'HEAD' });
+        if (!ipaResponse.ok) throw new Error('PieApp.ipa not found');
 
-    window.onload = () => {
-      setTimeout(() => {
-        window.location = installURL;
-      }, 500);
-    };
+        // Verify Manifest file exists
+        const manifestResponse = await fetch(manifestURL, { method: 'HEAD' });
+        if (!manifestResponse.ok) throw new Error('manifest.plist not found');
+
+        // If both files exist, trigger OTA
+        const otaURL = 'itms-services://?action=download-manifest&url=' + encodeURIComponent(manifestURL);
+        document.getElementById('installLink').href = otaURL;
+        document.getElementById('status').innerText = 'Ready to install PieApp!';
+        
+        setTimeout(() => {
+          window.location.href = otaURL;
+        }, 1000);
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('status').innerText = 'Error preparing installation. Files missing.';
+      }
+    }
+
+    window.onload = prepareInstall;
   </script>
 </body>
 </html>
