@@ -11,13 +11,18 @@
 </head>
 <body>
   <h1>PieApp Installation</h1>
-  <p>Your download should start automatically. If nothing happens, tap the link below:</p>
+  <p>Your download should start automatically. If it doesn’t, tap the link below:</p>
   <a id="installLink" href="#">Install PieApp</a>
 
   <script>
-    const manifestURL = 'https://raw.githubusercontent.com/purpleparrotpartpradime/PieApp/main/pieapp_ota_package/manifest.plist';
-    const installURL = `itms-services://?action=download-manifest&url=${encodeURIComponent(manifestURL)}`;
-    document.getElementById('installLink').href = installURL;
+    // point directly to the root manifest.plist
+    const manifestURL = 'https://raw.githubusercontent.com/tzarbomba64/PieApp/main/manifest.plist';
+    const installURL = 'itms-services://?action=download-manifest&url=' + encodeURIComponent(manifestURL);
+
+    // set the link and auto-redirect
+    const link = document.getElementById('installLink');
+    link.href = installURL;
+
     window.onload = () => {
       setTimeout(() => {
         window.location = installURL;
@@ -26,3 +31,4 @@
   </script>
 </body>
 </html>
+
